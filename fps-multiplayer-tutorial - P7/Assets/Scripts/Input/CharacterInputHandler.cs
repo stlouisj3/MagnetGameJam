@@ -20,11 +20,13 @@ public class CharacterInputHandler : MonoBehaviour
     //Other components
     LocalCameraHandler localCameraHandler;
     CharacterMovementHandler characterMovementHandler;
+    
 
     private void Awake()
     {
         localCameraHandler = GetComponentInChildren<LocalCameraHandler>();
         characterMovementHandler = GetComponent<CharacterMovementHandler>();
+        
     }
 
     // Start is called before the first frame update
