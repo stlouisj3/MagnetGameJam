@@ -14,4 +14,6 @@ public struct NetworkInputData : INetworkInput
     public NetworkBool isSetTransPortPressed;
     public NetworkBool isTransportPressed;
     public NetworkBool isPausedPressed;
+    public NetworkBool isPushPressed;
+    public NetworkBool isPullPressed;
 }
