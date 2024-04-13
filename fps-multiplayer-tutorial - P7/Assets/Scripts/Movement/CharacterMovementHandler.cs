@@ -6,6 +6,7 @@ using Fusion;
 public class CharacterMovementHandler : NetworkBehaviour
 {
     bool isRespawnRequested = false;
+    public spawnStuff spawnScript;
 
     //Other components
     NetworkCharacterControllerPrototypeCustom networkCharacterControllerPrototypeCustom;
@@ -15,6 +16,7 @@ public class CharacterMovementHandler : NetworkBehaviour
 
     private void Awake()
     {
+        spawnScript = FindObjectOfType<spawnStuff>().GetComponent<spawnStuff>();
         networkCharacterControllerPrototypeCustom = GetComponent<NetworkCharacterControllerPrototypeCustom>();
         hpHandler = GetComponent<HPHandler>();
         networkInGameMessages = GetComponent<NetworkInGameMessages>();
@@ -24,6 +26,7 @@ public class CharacterMovementHandler : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
     }
 
     public override void FixedUpdateNetwork()
@@ -91,7 +94,11 @@ public class CharacterMovementHandler : NetworkBehaviour
 
     void Respawn()
     {
-        networkCharacterControllerPrototypeCustom.TeleportToPosition(Utils.GetRandomSpawnPoint());
+        int chosenSpawn = Random.Range(0, spawnScript.spawnPoints.Count);
+
+        networkCharacterControllerPrototypeCustom.TeleportToPosition(new Vector3(spawnScript.spawnPoints[chosenSpawn].position.x, spawnScript.spawnPoints[chosenSpawn].position.y, spawnScript.spawnPoints[chosenSpawn].position.z));
+
+        //print(new Vector3(spawnScript.spawnPoints[chosenSpawn].position.x, spawnScript.spawnPoints[chosenSpawn].position.y, spawnScript.spawnPoints[chosenSpawn].position.z));
 
         hpHandler.OnRespawned();
 
