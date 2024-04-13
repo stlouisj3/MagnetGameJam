@@ -14,6 +14,9 @@ public class CharacterInputHandler : MonoBehaviour
     bool isTransportPressed = false;
     bool isPausedPressed = false;
 
+    bool isPushPressed = false;
+    bool isPullPressed = false;
+
     //Other components
     LocalCameraHandler localCameraHandler;
     CharacterMovementHandler characterMovementHandler;
@@ -66,7 +69,14 @@ public class CharacterInputHandler : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.E))
             isTransportPressed = true;
 
-        if(Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+            isPullPressed = true;
+
+        if (Input.GetKeyDown(KeyCode.Tab))
+            isPushPressed = true;
+
+
+        if (Input.GetKeyDown(KeyCode.Z))
             isPausedPressed = true;
 
         //Set view
@@ -100,6 +110,9 @@ public class CharacterInputHandler : MonoBehaviour
         networkInputData.isSetTransPortPressed = isSetTransPortPressed;
         networkInputData.isTransportPressed = isTransportPressed;
 
+        networkInputData.isPullPressed = isPullPressed; 
+        networkInputData.isPushPressed = isPushPressed;
+
         networkInputData.isPausedPressed = isPausedPressed;
 
         //Reset variables now that we have read their states
@@ -110,6 +123,8 @@ public class CharacterInputHandler : MonoBehaviour
         isSetTransPortPressed = false;
         isTransportPressed = false;
         isPausedPressed = false;
+        isPullPressed = false;
+        isPushPressed = false;
 
         return networkInputData;
     }
