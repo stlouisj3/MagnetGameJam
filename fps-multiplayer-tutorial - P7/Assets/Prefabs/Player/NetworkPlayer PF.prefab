@@ -370,6 +370,7 @@ GameObject:
   - component: {fileID: 1852728354347325528}
   - component: {fileID: 2236272646455254436}
   - component: {fileID: 4985779429485557398}
+  - component: {fileID: 4749662203800628400}
   m_Layer: 0
   m_Name: NetworkPlayer PF
   m_TagString: Untagged
@@ -591,6 +592,7 @@ MonoBehaviour:
   bodyMeshRenderer: {fileID: 5378213703285569550}
   playerModel: {fileID: 6860565821398973337}
   deathGameObjectPrefab: {fileID: 4817986840635846212, guid: cee29fc4fd375c44588dfd4c0b0689d1, type: 3}
+  magnetOBJ: {fileID: 920324873148010940}
   deathUI: {fileID: 8798979174181893057}
   skipSettingStartValues: 0
 --- !u!114 &4985779429485557398
@@ -606,6 +608,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
+--- !u!65 &4749662203800628400
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4398370856537798957}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 0.25, z: 1}
+  m_Center: {x: 0, y: -1, z: 0}
 --- !u!1 &6745662296497828216
 GameObject:
   m_ObjectHideFlags: 0
@@ -667,7 +682,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a52d920e34593594bb1c44e9603f5dbb, type: 2}
+  - {fileID: 3034077007278140435, guid: 54f650e918ff507448ac973feb08b4db, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -992,6 +1007,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6415380128174813920, guid: 9a3e7fc0afb14d44bae17e75a08145a0, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8829630826697984989, guid: 9a3e7fc0afb14d44bae17e75a08145a0, type: 3}
       propertyPath: m_Name
       value: PlayerUICanvas
@@ -1108,6 +1127,11 @@ PrefabInstance:
 --- !u!198 &670099464081310014 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 2634062280194960951, guid: fc9c47ef068abce44afbb23a75a3d1c0, type: 3}
+  m_PrefabInstance: {fileID: 3297402771153202953}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &920324873148010940 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2379902543376957109, guid: fc9c47ef068abce44afbb23a75a3d1c0, type: 3}
   m_PrefabInstance: {fileID: 3297402771153202953}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &2937585060775518698 stripped
