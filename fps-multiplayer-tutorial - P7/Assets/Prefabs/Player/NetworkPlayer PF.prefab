@@ -713,6 +713,9 @@ MonoBehaviour:
   collisionLayers:
     serializedVersion: 2
     m_Bits: 129
+  objLayer:
+    serializedVersion: 2
+    m_Bits: 16
   _isFiring: 0
   startEnergy: 100
   teleportEnergy: 25

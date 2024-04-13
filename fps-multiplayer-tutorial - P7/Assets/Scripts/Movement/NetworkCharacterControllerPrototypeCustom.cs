@@ -83,6 +83,8 @@ public class NetworkCharacterControllerPrototypeCustom : NetworkTransform {
     }
   }
 
+
+
   /// <summary>
   /// Basic implementation of a character controller's movement function based on an intended direction.
   /// <param name="direction">Intended movement direction, subject to movement query, acceleration and max speed values.</param>
@@ -118,6 +120,18 @@ public class NetworkCharacterControllerPrototypeCustom : NetworkTransform {
     Velocity   = (transform.position - previousPos) * Runner.Simulation.Config.TickRate;
     IsGrounded = Controller.isGrounded;
   }
+
+    public void pushPlayer(Vector3 arg)
+    {
+        Vector3 moveDir = arg - transform.position;
+        Controller.Move(-moveDir * 5);
+    }
+
+    public void pullPlayer(Vector3 arg)
+    {
+        Vector3 moveDir = arg - transform.position;
+        Controller.Move(moveDir * 5);
+    }
 
     public void Rotate(float rotationY)
     {

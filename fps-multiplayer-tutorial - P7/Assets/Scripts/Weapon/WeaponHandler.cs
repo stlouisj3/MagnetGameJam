@@ -19,6 +19,7 @@ public class WeaponHandler : NetworkBehaviour
 
     [Header("Collision")]
     public LayerMask collisionLayers;
+    public LayerMask objLayer;
 
 
     [Networked(OnChanged = nameof(OnFireChanged))]
@@ -92,8 +93,54 @@ public class WeaponHandler : NetworkBehaviour
             if (networkInputData.isTransportPressed)
                 teleport();
 
+            if (networkInputData.isPushPressed)
+                PushOBJ(networkInputData.aimForwardVector);
+
+            if (networkInputData.isPullPressed)
+                PullOBJ(networkInputData.aimForwardVector);
+
             if (networkInputData.isPausedPressed)
                 pausePressed();
+        }
+    }
+
+    void PushOBJ(Vector3 aimForwardVector)
+    {
+        print("Pushed");
+        Runner.LagCompensation.Raycast(aimPoint.position, aimForwardVector, 100, Object.InputAuthority, out var hitinfo, collisionLayers, HitOptions.IgnoreInputAuthority);
+        if (hitinfo.Hitbox != null)
+        {
+            print("Push Player");
+
+            if (Object.HasStateAuthority)
+            {
+                hitinfo.Hitbox.transform.root.GetComponent<NetworkCharacterControllerPrototypeCustom>().pushPlayer(aimForwardVector);
+
+                
+            }
+
+            
+
+        }
+
+    }
+
+    void PullOBJ(Vector3 aimForwardVector)
+    {
+        Runner.LagCompensation.Raycast(aimPoint.position, aimForwardVector, 100, Object.InputAuthority, out var hitinfo, collisionLayers, HitOptions.IgnoreInputAuthority);
+        if (hitinfo.Hitbox != null)
+        {
+            print("Push Player");
+
+            if (Object.HasStateAuthority)
+            {
+                hitinfo.Hitbox.transform.root.GetComponent<NetworkCharacterControllerPrototypeCustom>().pullPlayer(aimForwardVector);
+
+
+            }
+
+
+
         }
     }
 
