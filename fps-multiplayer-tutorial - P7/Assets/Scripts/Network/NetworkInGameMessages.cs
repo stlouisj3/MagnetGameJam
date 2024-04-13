@@ -10,6 +10,7 @@ public class NetworkInGameMessages : NetworkBehaviour
 
     private int kills = 0;
     private int topKills = 0;
+    private int lives = 5;
     private bool setTopScore = false;
 
     
@@ -36,6 +37,17 @@ public class NetworkInGameMessages : NetworkBehaviour
             RPC_UpdateKills(kills);
         }
             
+    }
+
+    public void SendDeathMessage(int arg)
+    {
+        
+       
+        RPC_UpdateOwnKills(arg);
+        if(lives < 0)
+        {
+
+        }
     }
 
     public void SetSlider(int arg)

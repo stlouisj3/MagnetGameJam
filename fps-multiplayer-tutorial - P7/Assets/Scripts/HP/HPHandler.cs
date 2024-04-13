@@ -9,12 +9,16 @@ public class HPHandler : NetworkBehaviour
     [Networked(OnChanged = nameof(OnHPChanged))]
     byte HP { get; set; }
 
+    int lives = 3;
+
     [Networked(OnChanged = nameof(OnStateChanged))]
     public bool isDead { get; set; }
 
     bool isInitialized = false;
 
     const byte startingHP = 5;
+
+    const int startingLives = 3;
 
     public Color uiOnHitColor;
     public Image uiOnHitImage;
@@ -24,6 +28,9 @@ public class HPHandler : NetworkBehaviour
 
     public GameObject playerModel;
     public GameObject deathGameObjectPrefab;
+    public GameObject magnetOBJ;
+
+    public GameObject deathUI;
 
     public bool skipSettingStartValues = false;
 
@@ -32,6 +39,7 @@ public class HPHandler : NetworkBehaviour
     CharacterMovementHandler characterMovementHandler;
     NetworkInGameMessages networkInGameMessages;
     NetworkPlayer networkPlayer;
+    WeaponHandler weaponHandler;
 
     private void Awake()
     {
@@ -39,6 +47,8 @@ public class HPHandler : NetworkBehaviour
         hitboxRoot = GetComponentInChildren<HitboxRoot>();
         networkInGameMessages = GetComponent<NetworkInGameMessages>();
         networkPlayer = GetComponent<NetworkPlayer>();
+        weaponHandler = GetComponentInChildren<WeaponHandler>();
+        deathUI.SetActive(false);
     }
 
     // Start is called before the first frame update
@@ -47,11 +57,12 @@ public class HPHandler : NetworkBehaviour
         if (!skipSettingStartValues)
         {
             HP = startingHP;
+            //lives = startingLives;
             isDead = false;
         }
 
         defaultMeshBodyColor = bodyMeshRenderer.material.color;
-
+        networkInGameMessages.SendDeathMessage(lives);
         isInitialized = true;
     }
 
@@ -150,13 +161,19 @@ public class HPHandler : NetworkBehaviour
 
     private void OnDeath()
     {
-        Debug.Log($"{Time.time} OnDeath");
-
+        //Debug.Log($"{Time.time} OnDeath");
+        lives--;
         playerModel.gameObject.SetActive(false);
         hitboxRoot.HitboxRootActive = false;
         characterMovementHandler.SetCharacterControllerEnabled(false);
+        networkInGameMessages.SendDeathMessage(lives);
 
         Instantiate(deathGameObjectPrefab, transform.position, Quaternion.identity);
+
+        if(lives <= 0)
+        {
+            weaponHandler.enabled = false;
+        }
     }
 
     private void OnRevive()
@@ -165,8 +182,16 @@ public class HPHandler : NetworkBehaviour
 
         if (Object.HasInputAuthority)
             uiOnHitImage.color = new Color(0, 0, 0, 0);
-
-        playerModel.gameObject.SetActive(true);
+        if(lives <= 0) {
+            playerModel.gameObject.SetActive(false);
+            deathUI.SetActive(true);
+            magnetOBJ.SetActive(false);
+        } 
+        else
+        {
+            playerModel.gameObject.SetActive(true);
+        }
+        
         hitboxRoot.HitboxRootActive = true;
         characterMovementHandler.SetCharacterControllerEnabled(true);
     }

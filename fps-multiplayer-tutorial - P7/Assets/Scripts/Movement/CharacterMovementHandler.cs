@@ -78,10 +78,10 @@ public class CharacterMovementHandler : NetworkBehaviour
             if (Object.HasStateAuthority)
             {
                 Debug.Log($"{Time.time} Respawn due to fall outside of map at position {transform.position}");
-
+                hpHandler.OnTakeDamage(networkPlayer.nickName.ToString(), 100);
                 networkInGameMessages.SendInGameRPCMessage(networkPlayer.nickName.ToString(), "fell off the world");
 
-                Respawn();
+                //Respawn();
             }
 
         }

@@ -80,13 +80,15 @@ public class WeaponHandler : NetworkBehaviour
         if (GetInput(out NetworkInputData networkInputData))
         {
             if (networkInputData.isFireButtonPressed)
-                Fire(networkInputData.aimForwardVector);
+                PullOBJ(networkInputData.aimForwardVector); 
+            //Fire(networkInputData.aimForwardVector);
 
             if (networkInputData.isGrenadeFireButtonPressed)
-                FireGrenade(networkInputData.aimForwardVector);
+                //FireGrenade(networkInputData.aimForwardVector);
 
             if (networkInputData.isRocketLauncherFireButtonPressed)
-                FireRocket(networkInputData.aimForwardVector);
+                PushOBJ(networkInputData.aimForwardVector);
+            //FireRocket(networkInputData.aimForwardVector);
 
             if (networkInputData.isSetTransPortPressed)
                 setTransportLocation();
@@ -94,10 +96,10 @@ public class WeaponHandler : NetworkBehaviour
                 teleport();
 
             if (networkInputData.isPushPressed)
-                PushOBJ(networkInputData.aimForwardVector);
+                //PushOBJ(networkInputData.aimForwardVector);
 
             if (networkInputData.isPullPressed)
-                PullOBJ(networkInputData.aimForwardVector);
+                //PullOBJ(networkInputData.aimForwardVector);
 
             if (networkInputData.isPausedPressed)
                 pausePressed();
