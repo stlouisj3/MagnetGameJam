@@ -2,22 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class elijahFade : MonoBehaviour
 {
     [SerializeField] GameObject objectOne;
-    //[SerializeField] GameObject objectTwo;
-    [SerializeField] Color colorOne;
+    [SerializeField] GameObject objectTwo;
+    //[SerializeField] Color colorOne;
     //[SerializeField] Color colorTwo;
-    [SerializeField] Image imageOne;
+    //[SerializeField] Image imageOne;
     public bool isFadingOut;
+    public float fadeOutTime = 1f;
 
     // Start is called before the first frame update
     void Start()
     {
-        colorOne = objectOne.GetComponent<Image>().color;
+        //colorOne = objectOne.GetComponent<Image>().color;
         //colorTwo = objectTwo.GetComponent<Renderer>().material.color;
-        colorOne.a = 0f;
+        objectOne.GetComponent<Image>().color = new Color(objectOne.GetComponent<Image>().color.r, objectOne.GetComponent<Image>().color.g, objectOne.GetComponent<Image>().color.b, 0);
+        objectTwo.GetComponent<TextMeshProUGUI>().color = new Color(objectTwo.GetComponent<TextMeshProUGUI>().color.r, objectTwo.GetComponent<TextMeshProUGUI>().color.g, objectTwo.GetComponent<TextMeshProUGUI>().color.b, 0);
         //colorTwo.a = 0;
         isFadingOut = false;
 
@@ -33,9 +36,10 @@ public class elijahFade : MonoBehaviour
         if (!isFadingOut)
         {
             //imageOne.color.a += Time.deltaTime;
-            colorOne.a += Time.deltaTime;
+            objectOne.GetComponent<Image>().color = new Color(objectOne.GetComponent<Image>().color.r, objectOne.GetComponent<Image>().color.g, objectOne.GetComponent<Image>().color.b, objectOne.GetComponent<Image>().color.a + (Time.deltaTime * fadeOutTime));
+            objectTwo.GetComponent<TextMeshProUGUI>().color = new Color(objectTwo.GetComponent<TextMeshProUGUI>().color.r, objectTwo.GetComponent<TextMeshProUGUI>().color.g, objectTwo.GetComponent<TextMeshProUGUI>().color.b, objectTwo.GetComponent<TextMeshProUGUI>().color.a + (Time.deltaTime * fadeOutTime));
             //colorTwo.a += Time.deltaTime;
-            if (colorOne.a > .95f) 
+            if (objectOne.GetComponent<Image>().color.a > .95f) 
             { 
                 isFadingOut = true;
             }
@@ -43,9 +47,10 @@ public class elijahFade : MonoBehaviour
 
         if (isFadingOut)
         {
-            colorOne.a -= Time.deltaTime;
+            objectOne.GetComponent<Image>().color = new Color(objectOne.GetComponent<Image>().color.r, objectOne.GetComponent<Image>().color.g, objectOne.GetComponent<Image>().color.b, objectOne.GetComponent<Image>().color.a - (Time.deltaTime * fadeOutTime));
+            objectTwo.GetComponent<TextMeshProUGUI>().color = new Color(objectTwo.GetComponent<TextMeshProUGUI>().color.r, objectTwo.GetComponent<TextMeshProUGUI>().color.g, objectTwo.GetComponent<TextMeshProUGUI>().color.b, objectTwo.GetComponent<TextMeshProUGUI>().color.a - (Time.deltaTime * fadeOutTime));
             //colorTwo.a -= Time.deltaTime;
-            if (colorOne.a < .05f)
+            if (objectOne.GetComponent<Image>().color.a < .05f)
             {
                 isFadingOut = false;
             }
