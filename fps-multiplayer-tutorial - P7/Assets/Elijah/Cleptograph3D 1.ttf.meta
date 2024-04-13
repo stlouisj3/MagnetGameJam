@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 91e4377ddbb039048bc4068dca2e989f
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Cleptograph 3D
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 2f0f9f36731f0cb41bfa6cbee8fbdd6b, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
