@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class elijahFade : MonoBehaviour
 {
-    //[SerializeField] GameObject objectOne;
-    //[SerializeField] GameObject objectTwo;
-    [SerializeField] Color objectOne;
+    [SerializeField] GameObject objectOne;
+    [SerializeField] GameObject objectTwo;
+    [SerializeField] Color colorOne;
+    [SerializeField] Color colorTwo;
     public bool isFadingOut;
 
     // Start is called before the first frame update
     void Start()
     {
-        objectOne.a = 0;
+        colorOne = objectOne.GetComponent<Renderer>().material.color;
+        colorTwo = objectTwo.GetComponent<Renderer>().material.color;
+        colorOne.a = 0;
+        colorTwo.a = 0;
         isFadingOut = false;
     }
 
@@ -21,8 +25,9 @@ public class elijahFade : MonoBehaviour
     {
         if (!isFadingOut)
         {
-            objectOne.a += Time.deltaTime;
-            if(objectOne.a == 1) 
+            colorOne.a += Time.deltaTime;
+            colorTwo.a += Time.deltaTime;
+            if (colorOne.a == 1) 
             { 
                 isFadingOut = true;
             }
@@ -30,8 +35,9 @@ public class elijahFade : MonoBehaviour
 
         if (isFadingOut)
         {
-            objectOne.a -= Time.deltaTime;
-            if (objectOne.a == 0)
+            colorOne.a -= Time.deltaTime;
+            colorTwo.a -= Time.deltaTime;
+            if (colorOne.a == 0)
             {
                 isFadingOut = false;
             }
