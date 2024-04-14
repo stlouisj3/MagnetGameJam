@@ -9,7 +9,7 @@ public class HPHandler : NetworkBehaviour
     [Networked(OnChanged = nameof(OnHPChanged))]
     byte HP { get; set; }
 
-    int lives = 3;
+    int lives = 4;
 
     [Networked(OnChanged = nameof(OnStateChanged))]
     public bool isDead { get; set; }
@@ -60,7 +60,7 @@ public class HPHandler : NetworkBehaviour
             //lives = startingLives;
             isDead = false;
         }
-
+        playerModel.gameObject.SetActive(true);
         defaultMeshBodyColor = bodyMeshRenderer.material.color;
         networkInGameMessages.SendDeathMessage(lives);
         isInitialized = true;
@@ -172,7 +172,8 @@ public class HPHandler : NetworkBehaviour
 
         if(lives <= 0)
         {
-            weaponHandler.enabled = false;
+            weaponHandler.disableInput();
+            //weaponHandler.enabled = false;
         }
     }
 

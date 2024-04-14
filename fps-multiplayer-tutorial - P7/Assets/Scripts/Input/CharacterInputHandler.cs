@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CharacterInputHandler : MonoBehaviour
@@ -59,7 +60,7 @@ public class CharacterInputHandler : MonoBehaviour
             isFireButtonPressed = true;
 
         //Fire
-        if (Input.GetButtonDown("Fire2"))
+        if (Input.GetKeyDown(KeyCode.Tab)) //GetButtonDown(MouseButton.Right)
             isRocketLauncherFireButtonPressed = true;
 
         //Throw grenade
@@ -74,8 +75,11 @@ public class CharacterInputHandler : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftShift))
             isPullPressed = true;
 
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (Input.GetButtonDown("Fire2"))
+        {
             isPushPressed = true;
+        }
+            
 
 
         if (Input.GetKeyDown(KeyCode.Z))
@@ -113,7 +117,7 @@ public class CharacterInputHandler : MonoBehaviour
         networkInputData.isTransportPressed = isTransportPressed;
 
         networkInputData.isPullPressed = isPullPressed; 
-        networkInputData.isPushPressed = isPushPressed;
+        networkInputData.isPushPressed = isPushPressed;        
 
         networkInputData.isPausedPressed = isPausedPressed;
 

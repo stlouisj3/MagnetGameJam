@@ -21,6 +21,8 @@ public class CharacterMovementHandler : NetworkBehaviour
         hpHandler = GetComponent<HPHandler>();
         networkInGameMessages = GetComponent<NetworkInGameMessages>();
         networkPlayer = GetComponent<NetworkPlayer>();
+
+       
     }
 
     // Start is called before the first frame update

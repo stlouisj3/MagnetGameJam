@@ -13,9 +13,13 @@ public class WeaponHandler : NetworkBehaviour
 
     [Header("Effects")]
     public ParticleSystem fireParticleSystem;
+    public ParticleSystem leftParticleSystem;
+    public ParticleSystem rightParticleSystem;
 
     [Header("Aim")]
     public Transform aimPoint;
+    public Transform leftPoint;
+    public Transform rightPoint;
 
     [Header("Collision")]
     public LayerMask collisionLayers;
@@ -28,11 +32,12 @@ public class WeaponHandler : NetworkBehaviour
     private int kills;
     float lastTimeFired = 0;
     private NetworkObject playerAura;
+    bool canFire = true;
 
     private Vector3 telePortLocation;
     private bool transportSet = false;
     [SerializeField] private int startEnergy = 100;
-    [SerializeField] private int teleportEnergy = 25;
+    [SerializeField] private int teleportEnergy = 50;
     private int energy;
 
     [SerializeField] private GameObject pauseMenu; //Yes should be in a different script but I am lazy right now.
@@ -54,6 +59,7 @@ public class WeaponHandler : NetworkBehaviour
         networkPlayer = GetBehaviour<NetworkPlayer>();
         networkObject = GetComponent<NetworkObject>();
         networkInGameMessages = GetComponent<NetworkInGameMessages>();
+        
 
     }
 
@@ -64,8 +70,12 @@ public class WeaponHandler : NetworkBehaviour
         energy = startEnergy;
         networkInGameMessages.SetSlider(energy);
         pauseMenu.SetActive(false);
+        canFire = true;
     }
-
+    public void disableInput()
+    {
+        canFire = false;
+    }
     public override void FixedUpdateNetwork()
     {
         if (hpHandler.isDead)
@@ -79,40 +89,43 @@ public class WeaponHandler : NetworkBehaviour
         //Get the input from the network
         if (GetInput(out NetworkInputData networkInputData))
         {
-            if (networkInputData.isFireButtonPressed)
+            if (networkInputData.isPushPressed && canFire)
+                PushOBJ(networkInputData.aimForwardVector);
+
+            if (networkInputData.isFireButtonPressed && canFire)
                 PullOBJ(networkInputData.aimForwardVector); 
             //Fire(networkInputData.aimForwardVector);
-
-            if (networkInputData.isGrenadeFireButtonPressed)
-                //FireGrenade(networkInputData.aimForwardVector);
-
-            if (networkInputData.isRocketLauncherFireButtonPressed)
-                PushOBJ(networkInputData.aimForwardVector);
-            //FireRocket(networkInputData.aimForwardVector);
-
-            if (networkInputData.isSetTransPortPressed)
+            if (networkInputData.isSetTransPortPressed && canFire)
                 setTransportLocation();
-            if (networkInputData.isTransportPressed)
+            if (networkInputData.isTransportPressed && canFire)
                 teleport();
-
-            if (networkInputData.isPushPressed)
-                //PushOBJ(networkInputData.aimForwardVector);
-
-            if (networkInputData.isPullPressed)
-                //PullOBJ(networkInputData.aimForwardVector);
-
             if (networkInputData.isPausedPressed)
                 pausePressed();
+            //if (networkInputData.isGrenadeFireButtonPressed)
+                //FireGrenade(networkInputData.aimForwardVector);
+
+            //FireRocket(networkInputData.aimForwardVector);
+            
+            
+
+            //if (networkInputData.isPushPressed)
+                //PushOBJ(networkInputData.aimForwardVector);
+
+            //if (networkInputData.isPullPressed)
+                //PullOBJ(networkInputData.aimForwardVector);
+
+            
         }
     }
 
     void PushOBJ(Vector3 aimForwardVector)
     {
-        print("Pushed");
+        if (Time.time - lastTimeFired < 0.3f)
+            return;
+        StartCoroutine(FireEffectCO(false));
         Runner.LagCompensation.Raycast(aimPoint.position, aimForwardVector, 100, Object.InputAuthority, out var hitinfo, collisionLayers, HitOptions.IgnoreInputAuthority);
         if (hitinfo.Hitbox != null)
         {
-            print("Push Player");
 
             if (Object.HasStateAuthority)
             {
@@ -120,15 +133,19 @@ public class WeaponHandler : NetworkBehaviour
 
                 
             }
-
             
 
+
         }
+        lastTimeFired = Time.time;
 
     }
 
     void PullOBJ(Vector3 aimForwardVector)
     {
+        if (Time.time - lastTimeFired < 0.3f)
+            return;
+        StartCoroutine(FireEffectCO(true));
         Runner.LagCompensation.Raycast(aimPoint.position, aimForwardVector, 100, Object.InputAuthority, out var hitinfo, collisionLayers, HitOptions.IgnoreInputAuthority);
         if (hitinfo.Hitbox != null)
         {
@@ -144,6 +161,7 @@ public class WeaponHandler : NetworkBehaviour
 
 
         }
+        lastTimeFired = Time.time;
     }
 
     void Fire(Vector3 aimForwardVector)
@@ -152,7 +170,7 @@ public class WeaponHandler : NetworkBehaviour
         if (Time.time - lastTimeFired < 0.15f)
             return;
 
-        StartCoroutine(FireEffectCO());
+        StartCoroutine(FireEffectCO(true));
 
         Runner.LagCompensation.Raycast(aimPoint.position, aimForwardVector, 100, Object.InputAuthority, out var hitinfo, collisionLayers, HitOptions.IgnoreInputAuthority);
 
@@ -221,11 +239,14 @@ public class WeaponHandler : NetworkBehaviour
         }
     }
 
-    IEnumerator FireEffectCO()
+    IEnumerator FireEffectCO(bool arg)
     {
         isFiring = true;
-
-        fireParticleSystem.Play();
+        if (arg)
+            leftParticleSystem.Play();
+        else 
+            rightParticleSystem.Play();
+        //fireParticleSystem.Play();
 
         yield return new WaitForSeconds(0.09f);
 

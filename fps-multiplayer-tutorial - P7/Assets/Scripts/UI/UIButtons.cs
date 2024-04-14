@@ -17,7 +17,8 @@ public class UIButtons : NetworkBehaviour
     private void Awake()
     {
         networkPlayer = GetBehaviour<NetworkPlayer>();
-        localPlayer = networkRunner.LocalPlayer;
+        if(networkPlayer != null )
+            localPlayer = networkRunner.LocalPlayer;
     }
     public void changeScene(int arg)
     {

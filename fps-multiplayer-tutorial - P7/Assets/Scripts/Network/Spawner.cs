@@ -82,7 +82,9 @@ public class Spawner : MonoBehaviour, INetworkRunnerCallbacks
             else
             {
                 Debug.Log($"Spawning new player for connection token {playerToken}");
-                NetworkPlayer spawnedNetworkPlayer = runner.Spawn(playerPrefab, Utils.GetRandomSpawnPoint(), Quaternion.identity, player);
+                spawnStuff spPoint = FindObjectOfType<spawnStuff>();
+                int spawn = UnityEngine.Random.Range(0, spPoint.spawnPoints.Count);
+                NetworkPlayer spawnedNetworkPlayer = runner.Spawn(playerPrefab, spPoint.spawnPoints[spawn].position, Quaternion.identity, player);
 
                 //Store the token for the player
                 spawnedNetworkPlayer.token = playerToken;
