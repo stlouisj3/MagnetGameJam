@@ -29,6 +29,8 @@ public class HPHandler : NetworkBehaviour
     public GameObject playerModel;
     public GameObject deathGameObjectPrefab;
     public GameObject magnetOBJ;
+    public GameObject otherStuff;
+    
 
     public GameObject deathUI;
 
@@ -190,11 +192,13 @@ public class HPHandler : NetworkBehaviour
         } 
         else
         {
+            otherStuff.gameObject.SetActive(false);
             playerModel.gameObject.SetActive(true);
+            hitboxRoot.HitboxRootActive = true;
+            characterMovementHandler.SetCharacterControllerEnabled(true);
         }
         
-        hitboxRoot.HitboxRootActive = true;
-        characterMovementHandler.SetCharacterControllerEnabled(true);
+        
     }
     public bool getDeath()
     {
