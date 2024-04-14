@@ -2693,6 +2693,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnPoints:
   - {fileID: 742308294}
+  - {fileID: 885985239}
+  - {fileID: 700821747}
+  - {fileID: 112301052}
+  - {fileID: 699206682}
+  - {fileID: 508501817}
+  - {fileID: 482354476}
+  - {fileID: 1232919039}
+  - {fileID: 1924709822}
 --- !u!1 &1673234077
 GameObject:
   m_ObjectHideFlags: 0

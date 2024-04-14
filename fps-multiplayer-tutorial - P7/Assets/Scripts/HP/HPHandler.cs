@@ -9,7 +9,7 @@ public class HPHandler : NetworkBehaviour
     [Networked(OnChanged = nameof(OnHPChanged))]
     byte HP { get; set; }
 
-    int lives = 4;
+    int lives = 0;
 
     [Networked(OnChanged = nameof(OnStateChanged))]
     public bool isDead { get; set; }
@@ -18,7 +18,7 @@ public class HPHandler : NetworkBehaviour
 
     const byte startingHP = 5;
 
-    const int startingLives = 3;
+    const int startingLives = 0;
 
     public Color uiOnHitColor;
     public Image uiOnHitImage;
@@ -51,6 +51,7 @@ public class HPHandler : NetworkBehaviour
         networkPlayer = GetComponent<NetworkPlayer>();
         weaponHandler = GetComponentInChildren<WeaponHandler>();
         deathUI.SetActive(false);
+        lives = -1;
     }
 
     // Start is called before the first frame update
@@ -164,7 +165,7 @@ public class HPHandler : NetworkBehaviour
     private void OnDeath()
     {
         //Debug.Log($"{Time.time} OnDeath");
-        lives--;
+        lives++;
         playerModel.gameObject.SetActive(false);
         hitboxRoot.HitboxRootActive = false;
         characterMovementHandler.SetCharacterControllerEnabled(false);
@@ -172,11 +173,11 @@ public class HPHandler : NetworkBehaviour
 
         Instantiate(deathGameObjectPrefab, transform.position, Quaternion.identity);
 
-        if(lives <= 0)
+        /*if(lives <= 0)
         {
             weaponHandler.disableInput();
             //weaponHandler.enabled = false;
-        }
+        }*/
     }
 
     private void OnRevive()
@@ -185,18 +186,19 @@ public class HPHandler : NetworkBehaviour
 
         if (Object.HasInputAuthority)
             uiOnHitImage.color = new Color(0, 0, 0, 0);
-        if(lives <= 0) {
+        /*if(lives <= 0) {
             playerModel.gameObject.SetActive(false);
             deathUI.SetActive(true);
             magnetOBJ.SetActive(false);
-        } 
-        else
-        {
             otherStuff.gameObject.SetActive(false);
+        } 
+        else*/
+        
+            
             playerModel.gameObject.SetActive(true);
             hitboxRoot.HitboxRootActive = true;
             characterMovementHandler.SetCharacterControllerEnabled(true);
-        }
+        
         
         
     }

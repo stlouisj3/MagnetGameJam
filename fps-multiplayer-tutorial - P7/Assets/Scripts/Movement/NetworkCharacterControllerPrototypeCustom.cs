@@ -123,17 +123,18 @@ public class NetworkCharacterControllerPrototypeCustom : NetworkTransform {
 
     public void pushPlayer(Vector3 arg)
     {
-        Vector3 moveDir = arg - transform.position;
+        Vector3 moveDir = transform.forward - arg;
+       
         moveDir.Normalize();
-        
-        Controller.Move(-moveDir * .1f);
+
+        Controller.Move(moveDir * 2.5f);
     }
 
     public void pullPlayer(Vector3 arg)
     {
-        Vector3 moveDir = arg - transform.position;
+        Vector3 moveDir = arg - transform.forward;
         moveDir.Normalize();
-        Controller.Move(moveDir * .1f);
+        Controller.Move(moveDir * 2.5f);
     }
 
     public void Rotate(float rotationY)

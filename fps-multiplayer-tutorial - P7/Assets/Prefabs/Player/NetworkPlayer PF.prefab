@@ -673,7 +673,7 @@ MonoBehaviour:
     m_Bits: 16
   _isFiring: 0
   startEnergy: 100
-  teleportEnergy: 25
+  teleportEnergy: 50
   pauseMenu: {fileID: 103321965896863369}
 --- !u!114 &1852728354347325528
 MonoBehaviour:
